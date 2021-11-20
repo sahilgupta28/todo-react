@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Header from "./MyComponents/Header";
+import { Todos } from "./MyComponents/Todos";
+import { Footer } from "./MyComponents/Footer";
+import React, { useState } from "react";
+import { AddTodo } from "./MyComponents/AddTodo";
 
 function App() {
+  const onDelete = (todo) => {
+    console.log("sdasf", todo);
+    setTodos(
+      todos.filter((val) => {
+        return val != todo;
+      })
+    );
+  };
+
+  const addTodo = (title, desc) => {
+    let sno = todos.length != 0 ? ++todos[todos.length - 1].sno : 1;
+    const myTodo = {
+      sno: sno,
+      title: title,
+      desc: desc,
+    };
+    setTodos([...todos, myTodo]);
+    console.log(myTodo);
+  };
+  const [todos, setTodos] = useState([]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header title="TODO's List" searchBar={false} />
+      <AddTodo addTodo={addTodo} />
+      <Todos todos={todos} onDelete={onDelete} />
+      <Footer />
+    </>
   );
 }
 
